@@ -3,7 +3,7 @@ from .. import loader, utils
 
 @loader.tds
 class ThousandMinusSevenMod(loader.Module):
-    string = {'name': 'Я гуль...'}
+    strings = {'name': 'Я гуль...'}
     async def gulecmd(self, message):
         thousand = 1000
         while thousand > 0:
