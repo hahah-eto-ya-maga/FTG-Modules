@@ -15,17 +15,17 @@ class SexMod(loader.Module):
         self.db = db
 
     async def anamecmd(self, message):
-        """"""
+        """.aname шо хочешь пиши"""
+        args = utils.get_args_raw(message)
         emojis = ['👉', '👈']
-        name = 'Фернандо Санчес'
 
         if not self.db.get("NameEmoji", "status", False):
             self.db.set("NameEmoji", "status", True)
             await message.edit("<b>Активировано</b>")
             while self.db.get("NameEmoji", "status", True):
-                await self.client(functions.account.UpdateProfileRequest(first_name=f'{name} {emojis[0]}{emojis[1]}‍‌‌‌‌‍‌‌‌‌‌‌‌‍‍‍‍‍‍‍‍‍‍‍', last_name=''))
+                await self.client(functions.account.UpdateProfileRequest(first_name=f'{args} {emojis[0]}{emojis[1]}‍‌‌‌‌‍‌‌‌‌‌‌‌‍‍‍‍‍‍‍‍‍‍‍', last_name=''))
                 await sleep(10)
-                await self.client(functions.account.UpdateProfileRequest(first_name=f'{name} {emojis[0]}    {emojis[1]}‍‌‌‌‌‍‌‌‌‌‌‌‌‍‍‍‍‍‍‍‍‍‍‍', last_name=''))
+                await self.client(functions.account.UpdateProfileRequest(first_name=f'{args} {emojis[0]}    {emojis[1]}‍‌‌‌‌‍‌‌‌‌‌‌‌‍‍‍‍‍‍‍‍‍‍‍', last_name=''))
                 await sleep(10)
 
 
@@ -33,5 +33,5 @@ class SexMod(loader.Module):
         else:
             self.db.set("NameEmoji", "status", False)
             await message.edit("<b>Деактивировано</b>")
-            await self.client(functions.account.UpdateProfileRequest(first_name=f'{name}‍‌‌‌‌‍‌‌‌‌‌‌‌‍‍‍‍‍‍‍‍‍‍‍', last_name=''))
+            await self.client(functions.account.UpdateProfileRequest(first_name=f'{args}‍‌‌‌‌‍‌‌‌‌‌‌‌‍‍‍‍‍‍‍‍‍‍‍', last_name=''))
 
