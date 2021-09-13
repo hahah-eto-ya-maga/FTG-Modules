@@ -39,7 +39,7 @@ class TesseractMod(loader.Module):
         if reply and args:
             await message.edit('<b>Распознаю...</b>')
             file = io.BytesIO(await self.client.download_file(reply))
-            tes = pytesseract.image_to_string(Image.open(file), lang=f'{args}')
+            tes = pytesseract.image_to_string(Image.open(file), lang=args)
 
             await message.delete()
             await message.client.send_message(message.to_id, f'<b>[OCR]</b>{tes}<b>[OCR]</b>', reply_to=await message.get_reply_message())
