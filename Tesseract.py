@@ -1,4 +1,5 @@
 # coded by Y4sperMaglot
+# requires: pytesseract pillow
 
 from telethon.tl.types import MessageMediaPhoto
 from telethon import events
