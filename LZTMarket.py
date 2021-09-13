@@ -34,6 +34,9 @@ class LZTMarketMod(loader.Module):
             return
 
         url = args or reply.raw_text
+        if 'lolz.guru/market/' not in url and len(url) < 27:
+            await message.edit('<b>Ссылка на аккаунт в маркете невалидна</b>')
+            return
 
         # Обход защиты парсинга #
         await message.edit('<b>Обход защиты от парсинга...</b>')
