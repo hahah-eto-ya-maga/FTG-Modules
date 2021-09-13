@@ -1,4 +1,5 @@
 # coded by Y4sperMaglot
+# requires: lyricsgenius
 
 import lyricsgenius
 from .. import loader, utils
