@@ -9,7 +9,6 @@ import requests
 import base64
 from asyncio import sleep
 
-
 @loader.tds
 class LZTMarketMod(loader.Module):
     """Вывод содержимого аккаунта с маркета lolz"""
@@ -21,9 +20,8 @@ class LZTMarketMod(loader.Module):
 
     async def lolzcmd(self, message):
         """.lolz реплай или ссылка"""
-
+        await message.edit('<b>Получение ссылки...</b>')
         UserAgent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; Acoo Browser; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; .NET CLR 2.0.50727)'
-
 
         # Получение ссылки #
         args = utils.get_args_raw(message)
@@ -36,6 +34,7 @@ class LZTMarketMod(loader.Module):
         url = args or reply.raw_text
         if 'lolz.guru/market' not in url and len(url) < 27:
             await message.edit('<b>Ссылки нет</b>')
+            return
 
         # Обход защиты парсинга #
         await message.edit('<b>Обход защиты от парсинга...</b>')
@@ -56,7 +55,6 @@ class LZTMarketMod(loader.Module):
         except:
             await message.edit('<b>Что-то пошло не так...</b>')
             return
-
 
         # Получение информации со страницы #
         await message.edit('<b>Получение информации страницы...</b>')
@@ -93,8 +91,6 @@ class LZTMarketMod(loader.Module):
         except:
             accorigin = soup.find_all('span', class_='DateTime')[0].string.strip()    # Дата
 
-
-
         if 'world of tanks' in service_account.lower():
             tanks = soup.find('ul', id='wotTabs')
             tanks_child = tanks.findChildren('span', 'muted')
@@ -117,8 +113,14 @@ class LZTMarketMod(loader.Module):
             clan = 'Неизвестно' if label[6].string is None else clan.strip()
 
             await message.delete()
-            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте World of Tanks:</b>\n🦽 Все танки:  {allTanks}\n🦽 Топы:  {tops}\n🦽 Премы:  {premTanks}\n🌎 Регион:  {region}\n📱 Привязка к телефону:  {phone}\n💰 Золото:  {gold}\n💵 Серебро:  {silv}\n🤼‍♂ Количество боёв:  {battles}\n🏆 Количество(процент побед):  {victory}\n🏳️‍🌈 Клан:  {clan}\n🥇 Премиум:  {prem}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}')
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте World of Tanks:</b>\n🦽 Все танки:  {allTanks}\n🦽 Топы:  {tops}\n🦽 Премы:  {premTanks}\n🌎 Регион:  {region}\n📱 Привязка к телефону:  {phone}\n💰 Золото:  {gold}\n💵 Серебро:  {silv}\n🎮 Количество боёв:  {battles}\n🏆 Количество(процент побед):  {victory}\n🏳️‍🌈 Клан:  {clan}\n🥇 Премиум:  {prem}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
+        
+
+
+
+
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Steam:\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
         else:
             await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
