@@ -120,7 +120,7 @@ class LZTMarketMod(loader.Module):
             await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте World of Tanks:</b>\n🦽 Все танки:  {allTanks}\n🦽 Топы:  {tops}\n🦽 Премы:  {premTanks}\n🌎 Регион:  {region}\n📱 Привязка к телефону:  {phone}\n💰 Золото:  {gold}\n💵 Серебро:  {silv}\n🤼‍♂ Количество боёв:  {battles}\n🏆 Количество(процент побед):  {victory}\n🏳️‍🌈 Клан:  {clan}\n🥇 Премиум:  {prem}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}')
 
         else:
-            await message.client.send_message(message.to_id, f'🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
 
 
