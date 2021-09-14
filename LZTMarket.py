@@ -22,7 +22,7 @@ class LZTMarketMod(loader.Module):
     async def lolzcmd(self, message):
         """.lolz реплай или ссылка"""
 
-        UserAgent = 'Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 6.0; Win64; x64; Trident/5.0; .NET CLR 3.8.50799; Media Center PC 6.0; .NET4.0E)'
+        UserAgent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; Acoo Browser; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; .NET CLR 2.0.50727)'
 
 
         # Получение ссылки #
@@ -34,9 +34,8 @@ class LZTMarketMod(loader.Module):
             return
 
         url = args or reply.raw_text
-        if 'lolz.guru/market/' not in url and len(url) < 27:
-            await message.edit('<b>Ссылка на аккаунт в маркете невалидна</b>')
-            return
+        if 'lolz.guru/market' not in url and len(url) < 27:
+            await message.edit('<b>Ссылки нет</b>')
 
         # Обход защиты парсинга #
         await message.edit('<b>Обход защиты от парсинга...</b>')
@@ -49,7 +48,8 @@ class LZTMarketMod(loader.Module):
             strbyte = str(base64.b64decode(bytes).decode('utf-8'))
             page = requests.get(url, headers={
                 "User-Agent": UserAgent,
-                "Cookie": f'df_id={strbyte}'})
+                "Cookie": f'df_id={strbyte}',
+                "Accept-Language": "ru"})
             await message.edit('<b>Успешно</b>')
             await sleep(0.5)
 
@@ -69,6 +69,7 @@ class LZTMarketMod(loader.Module):
             service_account = soup.find_all('span', itemprop='title')[1].string.strip()   # Название игры или сервиса
         except:
             await message.edit('<b>Ссылка на аккаунт в маркете невалидна</b>')
+            return
 
         try:
             header = soup.find_all('h1', class_='h1Style marketItemView--titleStyle fl_l')[0].string.strip()   # Заголовок
@@ -92,9 +93,34 @@ class LZTMarketMod(loader.Module):
         except:
             accorigin = soup.find_all('span', class_='DateTime')[0].string.strip()    # Дата
 
-        await message.delete()
 
-        await message.client.send_message(message.to_id, f'🎪 Контора: {service_account}\n🏷 Заголовок: {header}\n👨‍💻 Продавец: {seller}\n💵 Цена: {price}руб\n⌛ Дата публикации: {accorigin}\n🔗 Ссылка на трейд: {link}')
+
+        if 'world of tanks' in service_account.lower():
+            tanks = soup.find('ul', id='wotTabs')
+            tanks_child = tanks.findChildren('span', 'muted')
+
+            tops = tanks_child[0].string.strip()
+            premTanks = tanks_child[1].string.strip()
+            allTanks = tanks_child[2].string.strip()
+
+            label = soup.find_all('div', class_='label')
+            region = label[0].string.strip()
+            phone = label[1].string.strip()
+            gold = label[2].string.strip()
+            silv = label[3].string.strip()
+            battles = label[4].string.strip()
+            victory = label[5].string.strip()
+            clan = label[6].string
+            prem = label[7].string.strip()
+            active = label[8].string.strip()
+            reg = label[9].string.strip()
+            clan = 'Неизвестно' if label[6].string is None else clan.strip()
+
+            await message.delete()
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте World of Tanks:</b>\n🦽 Все танки:  {allTanks}\n🦽 Топы:  {tops}\n🦽 Премы:  {premTanks}\n🌎 Регион:  {region}\n📱 Привязка к телефону:  {phone}\n💰 Золото:  {gold}\n💵 Серебро:  {silv}\n🤼‍♂ Количество боёв:  {battles}\n🏆 Количество(процент побед):  {victory}\n🏳️‍🌈 Клан:  {clan}\n🥇 Премиум:  {prem}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}')
+
+        else:
+            await message.client.send_message(message.to_id, f'🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
 
 
