@@ -172,7 +172,7 @@ class LZTMarketMod(loader.Module):
                     rank = f'{label[0].string.strip()}'
                     actCon = soup.find('div', class_='marketItemView--counters')
                     try:
-                        act = actCon.findChildren('span', class_='DateTime')[0].string.strip()
+                        act = actCon.findChildren('abbr', class_='DateTime')[0].string.strip()
                     except:
                         act = label[1].string.strip()
                     bonus = label[2].string.strip()
