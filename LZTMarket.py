@@ -142,6 +142,45 @@ class LZTMarketMod(loader.Module):
 
             await message.delete()
             await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Origin:</b>\n🎮 Игры:  {games}\n🎫 Тип подписки:  {subscribe}\n🌎 Страна:  {country}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+
+        elif 'warface' in service_account.lower():
+            statusCon = soup.find_all('div', class_='marketItemView--statusesContainer')
+            bk = statusCon[1].findChildren('div', class_='statusTitle')[0].string.strip()
+            phone = statusCon[1].findChildren('div', class_='statusTitle')[1].string.strip()
+
+            label = soup.find_all('div', class_='label')
+            try:
+                rank = f'{label[0].string.strip()}, {label[1].string.strip()}, {label[2].string.strip()}'
+                actCon = soup.find('div', class_='marketItemView--counters')
+                try:
+                    act = actCon.findChildren('span', class_='DateTime')[0].string.strip()
+                except:
+                    act = label[3].string.strip()
+                bonus = label[4].string.strip()
+                email = label[5].string.strip()
+            except:
+                try:
+                    rank = f'{label[0].string.strip()}, {label[1].string.strip()}'
+                    actCon = soup.find('div', class_='marketItemView--counters')
+                    try:
+                        act = actCon.findChildren('span', class_='DateTime')[0].string.strip()
+                    except:
+                        act = label[2].string.strip()
+                    bonus = label[3].string.strip()
+                    email = label[4].string.strip()
+                except:
+                    rank = f'{label[0].string.strip()}'
+                    actCon = soup.find('div', class_='marketItemView--counters')
+                    try:
+                        act = actCon.findChildren('span', class_='DateTime')[0].string.strip()
+                    except:
+                        act = label[1].string.strip()
+                    bonus = label[2].string.strip()
+                    email = label[3].string.strip()
+
+            await message.delete()
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Warface:</b>\n💳 Кредит:  {bk}\n📱 Привязка:  {phone}\n🏆 Ранги:  {rank}\n🤹‍♂ Последняя активность:  {act}\n💎 Программа бонусов:  {bonus}\n✉ Почтовый домен:  {email}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+
         else:
             await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
