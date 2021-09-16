@@ -74,15 +74,8 @@ class LZTMarketMod(loader.Module):
         except:
             header = "Пустой"
 
-        for count in range(0, 1000):
-            try:
-                find = soup.find_all('span', class_=f'style{str(count)}')
-                
-                if find:
-                    seller = find[0].string.strip()      # Селлер
-                    break
-            except:
-                pass
+        sellerCon = soup.find('a', class_='username fl_l')
+        seller = sellerCon.findChildren('span')[0].string.strip()     # Селлер
 
         price = soup.find_all('span', class_='value')[0].string.strip()  # Цена
 
@@ -113,10 +106,44 @@ class LZTMarketMod(loader.Module):
             clan = 'Неизвестно' if label[6].string is None else clan.strip()
 
             await message.delete()
-            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте World of Tanks:</b>\n🦽 Все танки:  {allTanks}\n🦽 Топы:  {tops}\n🦽 Премы:  {premTanks}\n🌎 Регион:  {region}\n📱 Привязка к телефону:  {phone}\n💰 Золото:  {gold}\n💵 Серебро:  {silv}\n🎮 Количество боёв:  {battles}\n🏆 Количество(процент побед):  {victory}\n🏳️‍🌈 Клан:  {clan}\n🥇 Премиум:  {prem}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте World of Tanks:</b>\n🦽 Все танки:  {allTanks}\n🦽 Топы:  {tops}\n🦽 Премы:  {premTanks}\n🌎 Регион:  {region}\n📱 Привязка к телефону:  {phone}\n💰 Золото:  {gold}\n💵 Серебро:  {silv}\n⚔ Количество боёв:  {battles}\n🏆 Количество(процент побед):  {victory}\n🏳️‍🌈 Клан:  {clan}\n🥇 Премиум:  {prem}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
+        elif 'вконтакте' in service_account.lower():
+            label = soup.find_all('div', class_='label')
+            friends = label[0].string.strip()
+            subs = label[1].string.strip()
+            votes = label[2].string.strip()
+            auth = label[3].string.strip()
+            phone = label[4].string.strip()
+            email = label[5].string.strip()
+            sex = label[6].string.strip()
+            yo = label[7].string.strip()
+            conreg = soup.find('div', class_='marketItemView--mainInfoContainer')
+            reg = conreg.findChildren('span', class_='DateTime')[0].string.strip()
+
+            await message.delete()
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте ВКонтакте:</b>\n👤 Количество друзей:  {friends}\n👥 Количество подписчиков:  {subs}\n📢 Количество голосов:  {votes}\n🛡 Двухэтапная аутентификация:  {auth}\n📱 Привязка к телефону:  {phone}\n✉ Привязка к почте:  {email}\n🤡 Пол:  {sex}\n💯 Возраст:  {yo}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+                    # блять я заебался выбирать смайлы
+
+        elif 'origin' in service_account.lower():
+            gamesCon = soup.find_all('div', class_='gameTitle')
+            games = ''
+            for game in gamesCon:
+                games += f'{game.string.strip()}, '
+            games = games[:-2]
+
+            infCon = soup.find_all('div', class_='marketItemView--counters')
+            for sub in infCon:
+                check = sub.findChildren('div', class_='counter ea_subscription')
+                if check:
+                    subscribe = check[0].findChildren('div', class_='label')[0].string.strip()
+                    country = sub.findChildren('div', class_='label')[1].string.strip()
+                    break
+
+            await message.delete()
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Origin:</b>\n🎮 Игры:  {games}\n🎫 Тип подписки:  {subscribe}\n🌎 Страна:  {country}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
         else:
-            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
 
 
