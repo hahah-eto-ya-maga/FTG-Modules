@@ -29,7 +29,7 @@ class AutonameMod(loader.Module):
             self.db.set("Autonamefs", "status", True)
             seconds = time.strftime("%S")
             start = 60 - int(seconds)
-            await message.edit('<b>Старт через {} секунд</b>'.format(start))
+            await message.edit('<b>Старт через {} сек...</b>'.format(start))
             await sleep(start)
             await message.delete()
             while self.db.get("Autonamefs", "status", True):
