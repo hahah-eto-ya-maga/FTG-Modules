@@ -57,7 +57,7 @@ class LZTMarketMod(loader.Module):
             return
 
         # Получение информации со страницы #
-        await message.edit('<b>Получение информации страницы...</b>')
+        await message.edit('<b>Получение информации об аккаунте...</b>')
 
         soup = BS(page.text, 'html.parser')
 
@@ -172,7 +172,7 @@ class LZTMarketMod(loader.Module):
                     rank = f'{label[0].string.strip()}'
                     actCon = soup.find('div', class_='marketItemView--counters')
                     try:
-                        act = actCon.findChildren('abbr', class_='DateTime')[0].string.strip()
+                        act = actCon.findChildren('span', class_='DateTime')[0].string.strip()
                     except:
                         act = label[1].string.strip()
                     bonus = label[2].string.strip()
@@ -180,6 +180,55 @@ class LZTMarketMod(loader.Module):
 
             await message.delete()
             await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Warface:</b>\n💳 Кредит:  {bk}\n📱 Привязка:  {phone}\n🏆 Ранги:  {rank}\n🤹‍♂ Последняя активность:  {act}\n💎 Программа бонусов:  {bonus}\n✉ Почтовый домен:  {email}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+
+        elif 'uplay' in service_account.lower():
+            gameCon = soup.find_all('div', class_='gameTitle')
+            games = ''
+            for game in gameCon:
+                games += f'{game.string.strip()}, '
+            games = games[:-2]
+
+            infoCon = soup.find('div', class_='marketItemView--mainInfoContainer')
+            country = infoCon.find('div', class_='label').string.strip()
+            try:
+                active = infoCon.find_all('span', class_='DateTime')[0].string.strip()
+                reg = infoCon.find_all('span', class_='DateTime')[1].string.strip()
+            except:
+                active = infoCon.find('abbr', class_='DateTime').string.strip()
+                reg = infoCon.find('span', class_='DateTime').string.strip()
+
+            await message.delete()
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Uplay:</b>\n🎮 Игры:  {games}\n🌎 Страна:  {country}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+
+        elif 'fortnite' in service_account.lower():
+            seasons = soup.find_all('div', class_='MarketScrollBar')
+            labels = seasons[1].find_all('div', class_='label')
+            pastSeasons = ''
+            count = 0
+            for label in labels:
+                pastSeasons += f'{label.string.strip()} '
+                if label == 'Да':
+                    pastSeasons += ' '
+                if len(label) == 0:
+                    pastSeasons += ' '
+                count += 1
+                if count == 3:
+                    pastSeasons += '\n'
+                    count = 0
+
+            infCon = soup.find_all('div', class_='marketItemView--counters')
+            label = infCon[-1].find_all('div', class_='label')
+            acclvl = label[1].string.strip()
+            balance = label[2].string.strip()
+            wins = label[3].string.strip()
+            lastSeason = label[4].string.strip()
+            battlePass = label[5].string.strip()
+            battlePassLvl = label[6].string.strip()
+            reg = infCon[-1].find('span', class_='DateTime').string.strip()
+            email = label[8].string.strip()
+
+            await message.delete()
+            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Fortnine:</b>\n💯 Уровень аккаунта:  {acclvl}\n💰 Баланс:  {balance}\n🏆 Количество побед:  {wins}\n🏆 Последний сезон:  {lastSeason}\n🎟 BattlePass:  {battlePass}\n🎟 Уровень BattlePass:  {battlePassLvl}\n💳 Регистрация:  {reg}\n✉ Почтовый домен:  {email}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
         else:
             await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
