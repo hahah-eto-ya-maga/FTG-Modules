@@ -14,5 +14,5 @@ class DaysDateMod(loader.Module):
         d = NY - now
         mm, ss = divmod(d.seconds, 60)
         hh, mm = divmod(mm, 60)
-        result = '❄ До нового года: {} дн. {} час. {} мин. {} сек.'.format(d.days, hh, mm, ss)
+        result = '❄ До нового года: {} д. {} час. {} мин. {} сек.'.format(d.days, hh, mm, ss)
         await message.edit(result)
