@@ -8,7 +8,7 @@ from asyncio import sleep
 
 @loader.tds
 class AutonameMod(loader.Module):
-    """Музыка в био"""
+    """Настоящее время в имени"""
     string = {'name': 'AutoNameTime'}
 
     async def client_ready(self, client, db):
