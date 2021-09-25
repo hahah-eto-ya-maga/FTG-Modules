@@ -11,7 +11,7 @@ class PassGeneratorMod(loader.Module):
         try:
             simvoli = int(args)
         except:
-            await message.edit('<b>Введит число.</b>')
+            await message.edit('<b>Введите число.</b>')
             return
 
         parol = ''
