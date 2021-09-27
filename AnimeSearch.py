@@ -31,16 +31,22 @@ class AnimeSearchMod(loader.Module):
         bot = "@Anime_Reverse_Search_Bot"
         async with message.client.conversation(bot) as conv:
             try:
-                response = conv.wait_event(events.MessageEdited(incoming=True, from_users=1644245632, pattern="Название"))
+                response = conv.wait_event(events.MessageEdited(incoming=True, from_users=1644245632))
                 await message.client.send_file(bot, gayPic)
                 response = await response
             except YouBlockedUserError:
                 await message.edit("<b>Разблокируй @Anime_Reverse_Search_Bot</b>")
                 return
-            try:
-                info = response.text.replace("<strong>", "**").replace("</strong>", "**")
-            except:
+            
+            info = response.text.replace("<strong>", "**").replace("</strong>", "**")
+
+            if "Ничего не найдено" in info or "Nothing found" in info:
                 await message.edit("<b>Ничего не найдено.</b>")
+                await message.client(
+                functions.messages.DeleteHistoryRequest(peer='Anime_Reverse_Search_Bot',
+                                                        max_id=0,
+                                                        just_clear=False,
+                                                        revoke=True))
                 return
 
             try:
@@ -57,7 +63,7 @@ class AnimeSearchMod(loader.Module):
                 result = info + urls
             except:
                 result = info
-            
+
             await message.delete()
             await message.client.send_message(message.to_id, result, reply_to=await message.get_reply_message(), link_preview=False, parse_mode="md")
             await message.client(
