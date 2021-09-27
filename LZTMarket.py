@@ -231,6 +231,7 @@ class LZTMarketMod(loader.Module):
             await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Fortnine:</b>\n💯 Уровень аккаунта:  {acclvl}\n💰 Баланс:  {balance}\n🏆 Количество побед:  {wins}\n🏆 Последний сезон:  {lastSeason}\n🎟 BattlePass:  {battlePass}\n🎟 Уровень BattlePass:  {battlePassLvl}\n💳 Регистрация:  {reg}\n✉ Почтовый домен:  {email}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
         else:
+            await message.delete()
             await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
 
