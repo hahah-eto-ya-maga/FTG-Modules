@@ -201,20 +201,20 @@ class LZTMarketMod(loader.Module):
             await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Uplay:</b>\n🎮 Игры:  {games}\n🌎 Страна:  {country}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
         elif 'fortnite' in service_account.lower():
-            seasons = soup.find_all('div', class_='MarketScrollBar')
-            labels = seasons[1].find_all('div', class_='label')
-            pastSeasons = ''
-            count = 0
-            for label in labels:
-                pastSeasons += f'{label.string.strip()} '
-                if label == 'Да':
-                    pastSeasons += ' '
-                if len(label) == 0:
-                    pastSeasons += ' '
-                count += 1
-                if count == 3:
-                    pastSeasons += '\n'
-                    count = 0
+#             seasons = soup.find_all('div', class_='MarketScrollBar')
+#             labels = seasons[1].find_all('div', class_='label')
+#             pastSeasons = ''
+#             count = 0
+#             for label in labels:
+#                 pastSeasons += f'{label.string.strip()} '
+#                 if label == 'Да':
+#                     pastSeasons += ' '
+#                 if len(label) == 0:
+#                     pastSeasons += ' '
+#                 count += 1
+#                 if count == 3:
+#                     pastSeasons += '\n'
+#                     count = 0
 
             infCon = soup.find_all('div', class_='marketItemView--counters')
             label = infCon[-1].find_all('div', class_='label')
