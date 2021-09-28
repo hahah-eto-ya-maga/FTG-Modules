@@ -74,33 +74,12 @@ class EyefGodMod(loader.Module):
         ))
         await message.delete()
         await message.client.send_message(message.to_id, result.messages[0])
-    async def crfncmd(self, message):
-        """
-        Random Furry from channel
-        """
-        links = ['https://t.me/joinchat/AAAAAEKWTxZPnvacazjM2Q']
-        await message.edit("<b>_-*Furry*-_</b>")
-        chat = links[random.randint(0, len(links)-1)]
-        result = await message.client(functions.messages.GetHistoryRequest(
-        peer=chat,
-        offset_id=0,
-        offset_date=datetime.datetime.now(),
-        add_offset=random.randint(0, 1000),
-        limit=1,
-        max_id=0,
-        min_id=0,
-        hash=0
-        ))
-        await message.delete()
-        await message.client.send_message(message.to_id, result.messages[0])
     async def crhcmd(self, message):
         """
         Random Hentai from channels
         """
-        # 
-        links = ['https://t.me/joinchat/AAAAAEkJjU8L9J6TDdkAIw', '@hentai']
         await message.edit("<b>_-*Hentai*-_</b>")
-        chat = links[random.randint(0, len(links)-1)]
+        chat = '@hentai'
         result = await message.client(functions.messages.GetHistoryRequest(
         peer=chat,
         offset_id=0,
