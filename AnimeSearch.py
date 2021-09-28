@@ -54,9 +54,11 @@ class AnimeSearchMod(loader.Module):
             urls = "\n\n**Ссылки:**\n"
             
             for i in range(str(response.reply_markup).count("buttons")):
-                urls += '[{}]({})\n'.format(response.reply_markup.rows[i].buttons[0].text, response.reply_markup.rows[i].buttons[0].url)
-                urls += '[{}]({})\n'.format(response.reply_markup.rows[i].buttons[1].text, response.reply_markup.rows[i].buttons[1].url)
-            
+                try:
+                    urls += '[{}]({})\n'.format(response.reply_markup.rows[i].buttons[0].text, response.reply_markup.rows[i].buttons[0].url)
+                    urls += '[{}]({})\n'.format(response.reply_markup.rows[i].buttons[1].text, response.reply_markup.rows[i].buttons[1].url)
+                except: pass
+                
             try:
                 result = info + urls
             except:
