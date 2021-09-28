@@ -37,8 +37,10 @@ class AnimeSearchMod(loader.Module):
             except YouBlockedUserError:
                 await message.edit("<b>Разблокируй @Anime_Reverse_Search_Bot</b>")
                 return
-            
-            info = response.text.replace("<strong>", "**").replace("</strong>", "**")
+            try:
+                info = response.text.replace("<strong>", "**").replace("</strong>", "**").replace("[", "").replace("]", "")
+            except:
+                info = response.text.replace("<strong>", "**").replace("</strong>", "**")
 
             if "Ничего не найдено" in info or "Nothing found" in info:
                 await message.edit("<b>Ничего не найдено.</b>")
@@ -49,36 +51,14 @@ class AnimeSearchMod(loader.Module):
                                                         revoke=True))
                 return
 
-            try:
-                urls = '\n\n**Ссылки:**\n[{}]({})\n'.format(response.reply_markup.rows[0].buttons[0].text, response.reply_markup.rows[0].buttons[0].url)
-            except: pass
-            try:
-                urls += '[{}]({})'.format(response.reply_markup.rows[0].buttons[1].text, response.reply_markup.rows[0].buttons[1].url)
-            except: pass
-            try:
-                urls += '\n[{}]({})'.format(response.reply_markup.rows[1].buttons[0].text, response.reply_markup.rows[1].buttons[0].url)
-            except: pass
-            try:
-                urls += '\n[{}]({})'.format(response.reply_markup.rows[1].buttons[1].text, response.reply_markup.rows[1].buttons[1].url)
-            except: pass
-            try:
-                urls += '\n[{}]({})'.format(response.reply_markup.rows[2].buttons[0].text, response.reply_markup.rows[2].buttons[0].url)
-            except: pass
-            try:
-                urls += '\n[{}]({})'.format(response.reply_markup.rows[2].buttons[1].text, response.reply_markup.rows[2].buttons[1].url)
-            except: pass
-            try:
-                urls += '\n[{}]({})'.format(response.reply_markup.rows[3].buttons[0].text, response.reply_markup.rows[3].buttons[0].url)
-            except: pass
-            try:
-                urls += '\n[{}]({})'.format(response.reply_markup.rows[3].buttons[1].text, response.reply_markup.rows[3].buttons[1].url)
-            except: pass
-            try:
-                urls += '\n[{}]({})'.format(response.reply_markup.rows[4].buttons[0].text, response.reply_markup.rows[4].buttons[0].url)
-            except: pass
-            try:
-                urls += '\n[{}]({})'.format(response.reply_markup.rows[4].buttons[1].text, response.reply_markup.rows[4].buttons[1].url)
-            except: pass
+            print(str(response.reply_markup))
+
+            urls = "\n\n**Ссылки:**\n"
+            
+            for i in range(str(response.reply_markup).count("buttons")):
+                urls += '[{}]({})\n'.format(response.reply_markup.rows[i].buttons[0].text, response.reply_markup.rows[i].buttons[0].url)
+                urls += '[{}]({})\n'.format(response.reply_markup.rows[i].buttons[1].text, response.reply_markup.rows[i].buttons[1].url)
+                
 
             try:
                 result = info + urls
