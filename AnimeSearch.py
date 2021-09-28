@@ -50,13 +50,34 @@ class AnimeSearchMod(loader.Module):
                 return
 
             try:
-                urls = '\n**Ссылки:**\n[{}]({})\n'.format(response.reply_markup.rows[0].buttons[0].text, response.reply_markup.rows[0].buttons[0].url)
+                urls = '\n\n**Ссылки:**\n[{}]({})\n'.format(response.reply_markup.rows[0].buttons[0].text, response.reply_markup.rows[0].buttons[0].url)
             except: pass
             try:
                 urls += '[{}]({})'.format(response.reply_markup.rows[0].buttons[1].text, response.reply_markup.rows[0].buttons[1].url)
             except: pass
             try:
                 urls += '\n[{}]({})'.format(response.reply_markup.rows[1].buttons[0].text, response.reply_markup.rows[1].buttons[0].url)
+            except: pass
+            try:
+                urls += '\n[{}]({})'.format(response.reply_markup.rows[1].buttons[1].text, response.reply_markup.rows[1].buttons[1].url)
+            except: pass
+            try:
+                urls += '\n[{}]({})'.format(response.reply_markup.rows[2].buttons[0].text, response.reply_markup.rows[2].buttons[0].url)
+            except: pass
+            try:
+                urls += '\n[{}]({})'.format(response.reply_markup.rows[2].buttons[1].text, response.reply_markup.rows[2].buttons[1].url)
+            except: pass
+            try:
+                urls += '\n[{}]({})'.format(response.reply_markup.rows[3].buttons[0].text, response.reply_markup.rows[3].buttons[0].url)
+            except: pass
+            try:
+                urls += '\n[{}]({})'.format(response.reply_markup.rows[3].buttons[1].text, response.reply_markup.rows[3].buttons[1].url)
+            except: pass
+            try:
+                urls += '\n[{}]({})'.format(response.reply_markup.rows[4].buttons[0].text, response.reply_markup.rows[4].buttons[0].url)
+            except: pass
+            try:
+                urls += '\n[{}]({})'.format(response.reply_markup.rows[4].buttons[1].text, response.reply_markup.rows[4].buttons[1].url)
             except: pass
 
             try:
