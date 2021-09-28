@@ -2,7 +2,7 @@
 
 from telethon import events, functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-from telethon.tl.types import MessageMediaPhoto
+from telethon.tl.types import MessageMediaDocument
 
 from .. import loader
 
@@ -18,13 +18,13 @@ class AnimeSearchMod(loader.Module):
         reply = await message.get_reply_message()
 
         if not reply:
-            await message.edit("<b>Реплай на картинку</b>")
+            await message.edit("<b>Реплай на медиа</b>")
             return
 
         try:
-            gayPic = reply.photo
+            media = reply.media
         except:
-            await message.edit("<b>Реплай на картинку</b>")
+            await message.edit("<b>Реплай на медиа</b>")
             return
 
         await message.edit("<b>Ищу...</b>")
@@ -32,7 +32,7 @@ class AnimeSearchMod(loader.Module):
         async with message.client.conversation(bot) as conv:
             try:
                 response = conv.wait_event(events.MessageEdited(incoming=True, from_users=1644245632))
-                await message.client.send_file(bot, gayPic)
+                await message.client.send_file(bot, media)
                 response = await response
             except YouBlockedUserError:
                 await message.edit("<b>Разблокируй @Anime_Reverse_Search_Bot</b>")
@@ -58,7 +58,7 @@ class AnimeSearchMod(loader.Module):
                     urls += '[{}]({})\n'.format(response.reply_markup.rows[i].buttons[0].text, response.reply_markup.rows[i].buttons[0].url)
                     urls += '[{}]({})\n'.format(response.reply_markup.rows[i].buttons[1].text, response.reply_markup.rows[i].buttons[1].url)
                 except: pass
-                
+
             try:
                 result = info + urls
             except:
