@@ -77,6 +77,8 @@ class LZTMarketMod(loader.Module):
         sellerCon = soup.find('a', class_='username fl_l')
         seller = sellerCon.findChildren('span')[0].string.strip()     # Селлер
 
+        logo = requests.get('https://github.com/hahah-eto-ya-maga/pic/raw/main/lolz.jpg').content   # Лого
+
         price = soup.find_all('span', class_='value')[0].string.strip()  # Цена
 
         try:
@@ -106,7 +108,7 @@ class LZTMarketMod(loader.Module):
             clan = 'Неизвестно' if label[6].string is None else clan.strip()
 
             await message.delete()
-            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте World of Tanks:</b>\n🦽 Все танки:  {allTanks}\n🦽 Топы:  {tops}\n🦽 Премы:  {premTanks}\n🌎 Регион:  {region}\n📱 Привязка к телефону:  {phone}\n💰 Золото:  {gold}\n💵 Серебро:  {silv}\n⚔ Количество боёв:  {battles}\n🏆 Количество(процент побед):  {victory}\n🏳️‍🌈 Клан:  {clan}\n🥇 Премиум:  {prem}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте World of Tanks:</b>\n🦽 Все танки:  {allTanks}\n🦽 Топы:  {tops}\n🦽 Премы:  {premTanks}\n🌎 Регион:  {region}\n📱 Привязка к телефону:  {phone}\n💰 Золото:  {gold}\n💵 Серебро:  {silv}\n⚔ Количество боёв:  {battles}\n🏆 Количество(процент побед):  {victory}\n🏳️‍🌈 Клан:  {clan}\n🥇 Премиум:  {prem}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
         elif 'вконтакте' in service_account.lower():
             label = soup.find_all('div', class_='label')
@@ -122,15 +124,15 @@ class LZTMarketMod(loader.Module):
             reg = conreg.findChildren('span', class_='DateTime')[0].string.strip()
 
             await message.delete()
-            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте ВКонтакте:</b>\n👤 Количество друзей:  {friends}\n👥 Количество подписчиков:  {subs}\n📢 Количество голосов:  {votes}\n🛡 Двухэтапная аутентификация:  {auth}\n📱 Привязка к телефону:  {phone}\n✉ Привязка к почте:  {email}\n🤡 Пол:  {sex}\n💯 Возраст:  {yo}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте ВКонтакте:</b>\n👤 Количество друзей:  {friends}\n👥 Количество подписчиков:  {subs}\n📢 Количество голосов:  {votes}\n🛡 Двухэтапная аутентификация:  {auth}\n📱 Привязка к телефону:  {phone}\n✉ Привязка к почте:  {email}\n👤 Пол:  {sex}\n💯 Возраст:  {yo}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
                     # блять я заебался выбирать смайлы
 
         elif 'origin' in service_account.lower():
             gamesCon = soup.find_all('div', class_='gameTitle')
-            games = ''
+            games = '\n'
             for game in gamesCon:
-                games += f'{game.string.strip()}, '
-            games = games[:-2]
+                games += f'{game.string.strip()}, \n'
+            games = games[:-3]
 
             infCon = soup.find_all('div', class_='marketItemView--counters')
             for sub in infCon:
@@ -141,7 +143,7 @@ class LZTMarketMod(loader.Module):
                     break
 
             await message.delete()
-            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Origin:</b>\n🎮 Игры:  {games}\n🎫 Тип подписки:  {subscribe}\n🌎 Страна:  {country}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Origin:</b>\n🎮 Игры:  {games}\n🎫 Тип подписки:  {subscribe}\n🌎 Страна:  {country}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
         elif 'warface' in service_account.lower():
             statusCon = soup.find_all('div', class_='marketItemView--statusesContainer')
@@ -179,14 +181,14 @@ class LZTMarketMod(loader.Module):
                     email = label[3].string.strip()
 
             await message.delete()
-            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Warface:</b>\n💳 Кредит:  {bk}\n📱 Привязка:  {phone}\n🏆 Ранги:  {rank}\n🤹‍♂ Последняя активность:  {act}\n💎 Программа бонусов:  {bonus}\n✉ Почтовый домен:  {email}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Warface:</b>\n💳 Кредит:  {bk}\n📱 Привязка:  {phone}\n🏆 Ранги:  {rank}\n🤹‍♂ Последняя активность:  {act}\n💎 Программа бонусов:  {bonus}\n✉ Почтовый домен:  {email}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
         elif 'uplay' in service_account.lower():
-            gameCon = soup.find_all('div', class_='gameTitle')
-            games = ''
-            for game in gameCon:
-                games += f'{game.string.strip()}, '
-            games = games[:-2]
+            gamesCon = soup.find_all('div', class_='gameTitle')
+            games = '\n'
+            for game in gamesCon:
+                games += f'{game.string.strip()}, \n'
+            games = games[:-3]
 
             infoCon = soup.find('div', class_='marketItemView--mainInfoContainer')
             country = infoCon.find('div', class_='label').string.strip()
@@ -198,24 +200,9 @@ class LZTMarketMod(loader.Module):
                 reg = infoCon.find('span', class_='DateTime').string.strip()
 
             await message.delete()
-            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Uplay:</b>\n🎮 Игры:  {games}\n🌎 Страна:  {country}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте Uplay:</b>\n🎮 Игры:  {games}\n🌎 Страна:  {country}\n🤹‍♂ Последняя активность:  {active}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
         elif 'fortnite' in service_account.lower():
-#             seasons = soup.find_all('div', class_='MarketScrollBar')
-#             labels = seasons[1].find_all('div', class_='label')
-#             pastSeasons = ''
-#             count = 0
-#             for label in labels:
-#                 pastSeasons += f'{label.string.strip()} '
-#                 if label == 'Да':
-#                     pastSeasons += ' '
-#                 if len(label) == 0:
-#                     pastSeasons += ' '
-#                 count += 1
-#                 if count == 3:
-#                     pastSeasons += '\n'
-#                     count = 0
-
             infCon = soup.find_all('div', class_='marketItemView--counters')
             label = infCon[-1].find_all('div', class_='label')
             acclvl = label[1].string.strip()
@@ -228,28 +215,68 @@ class LZTMarketMod(loader.Module):
             email = label[8].string.strip()
 
             await message.delete()
-            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Fortnine:</b>\n💯 Уровень аккаунта:  {acclvl}\n💰 Баланс:  {balance}\n🏆 Количество побед:  {wins}\n🏆 Последний сезон:  {lastSeason}\n🎟 BattlePass:  {battlePass}\n🎟 Уровень BattlePass:  {battlePassLvl}\n💳 Регистрация:  {reg}\n✉ Почтовый домен:  {email}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Fortnine:</b>\n💯 Уровень аккаунта:  {acclvl}\n💰 Баланс:  {balance}\n🏆 Количество побед:  {wins}\n🏆 Последний сезон:  {lastSeason}\n🎟 BattlePass:  {battlePass}\n🎟 Уровень BattlePass:  {battlePassLvl}\n💳 Регистрация:  {reg}\n✉ Почтовый домен:  {email}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+
+        elif 'epic games' in service_account.lower():
+            gamesCon = soup.find_all('div', class_='gameTitle')
+            games = '\n'
+            for game in gamesCon:
+                games += f'{game.string.strip()}, \n'
+            games = games[:-3]
+
+            label = soup.find_all('div', class_='label')
+            email = label[0].findChildren('span')[0].string.strip()
+            country = label[1].string.strip()
+
+            await message.delete()
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Epic Games:</b>\n🎮 Игры:  {games}\n✉️ Возможность смены почты:  {email}\n🌎 Страна:  {country}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+
+        elif 'instagram' in service_account.lower():
+            label = soup.find_all('div', class_='label')
+            fols = label[0].string.strip()
+            subs = label[1].string.strip()
+            post = label[2].string.strip()
+            try:
+                reg = label[3].findChildren('span', class_='DateTime')[0].string.strip()
+            except:
+                reg = label[3].findChildren('abbr', class_='DateTime')[0].string.strip()
+            country = label[4].string.strip()
+            phone = label[5].string.strip()
+
+            await message.delete()
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Instagram:</b>\n👥 Количество подписчиков:  {fols}\n👥 Подписки:  {subs}\n👥 Публикации:  {post}\n💳 Дата регистрации:  {reg}\n🌎 Страна:  {country}\n📱 Привязка к телефону:  {phone}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+
+        elif 'battle.net' in service_account.lower():
+            gamesCon = soup.find_all('div', class_='gameTitle')
+            games = '\n'
+            for game in gamesCon:
+                if 'Overwatch' in str(game):
+                    games += f'{game.string.strip()}, '.replace('\n', '').replace(' ', '') + '\n'
+                    continue
+                games += f'{game.string.strip()}, \n'
+            games = games[:-3]
+
+            status = soup.find_all('div', class_='statusTitle')
+            name = status[0].string.strip()
+            tag = status[1].string.strip()
+
+            label = soup.find_all('div', class_='label')
+            balance = label[0].findChildren('span', class_='Tooltip')[0].string.strip()
+            active = label[1].findChildren('span', class_='DateTime')[0].string.strip()
+            phone = label[2].string.strip()
+            country = label[3].string.strip()
+            lvl = label[4].string.strip()
+            try:
+                cookies = label[5].string.strip()
+            except:
+                lvl = 'Нет'
+                cookies = label[4].string.strip()
+
+            await message.delete()
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Battle.net:</b>\n🎮 Игры:  {games}\n👤 Ограничение 1:  {name}\n🎫 Ограничение 2:  {tag}\n💰 Баланс:  {balance}\n🤹‍♂️ Псоледняя активность:  {active}\n📱 Привязка к телефону:  {phone}\n🌎 Страна:  {country}\n💯 Уровень OverWatch:  {lvl}\n🌀 Cookies:  {cookies}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
         else:
             await message.delete()
-            await message.client.send_message(message.to_id, f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
 
