@@ -273,7 +273,7 @@ class LZTMarketMod(loader.Module):
                 cookies = label[4].string.strip()
 
             await message.delete()
-            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Battle.net:</b>\n🎮 Игры:  {games}\n👤 Ограничение 1:  {name}\n🎫 Ограничение 2:  {tag}\n💰 Баланс:  {balance}\n🤹‍♂️ Псоледняя активность:  {active}\n📱 Привязка к телефону:  {phone}\n🌎 Страна:  {country}\n💯 Уровень OverWatch:  {lvl}\n🌀 Cookies:  {cookies}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Battle.net:</b>\n🎮 Игры:  {games}\n👤 Имя:  {name}\n🎫 BattleTag:  {tag}\n💰 Баланс:  {balance}\n🤹‍♂️ Псоледняя активность:  {active}\n📱 Привязка к телефону:  {phone}\n🌎 Страна:  {country}\n💯 Уровень OverWatch:  {lvl}\n🌀 Cookies:  {cookies}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
         else:
             await message.delete()
