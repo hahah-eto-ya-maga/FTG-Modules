@@ -13,7 +13,6 @@ class AutoVoiceToTextMod(loader.Module):
 
     async def client_ready(self, client, db):
         self.db = db
-        self.client = client
 
     async def attoncmd(self, message):
         """.atton Включить распознавание речи"""
