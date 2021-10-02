@@ -41,4 +41,4 @@ class AutoVoiceToTextMod(loader.Module):
                         audio_content = recog.record(audio_file)
                     rec = recog.recognize_google(audio_content, language='ru-RU')
                     await m.edit(rec)
-            except: pass
+            except: return
