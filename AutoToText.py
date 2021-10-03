@@ -4,6 +4,7 @@ from io import BytesIO
 import speech_recognition as srec
 from pydub import AudioSegment as auds
 
+from telethon import types
 from .. import loader, utils
 
 @loader.tds
@@ -24,8 +25,7 @@ class AutoVoiceToTextMod(loader.Module):
         self.db.set("VoiceToText", "status", False)
         return await message.edit('<b>Автоматическое распознавание выключено.</b>')
 
-
-    async def watcher(self, m):
+    async def watcher(self, m: types.Message):
         if self.db.get("VoiceToText", "status", True):
             try:
                 if m.file.mime_type.split('/')[0] == 'audio':
@@ -41,4 +41,5 @@ class AutoVoiceToTextMod(loader.Module):
                         audio_content = recog.record(audio_file)
                     rec = recog.recognize_google(audio_content, language='ru-RU')
                     await m.edit(rec)
+                else: return
             except: return
