@@ -28,7 +28,7 @@ class AutoVoiceToTextMod(loader.Module):
     async def watcher(self, m: types.Message):
         if self.db.get("VoiceToText", "status", True):
             try:
-                if m.file.mime_type.split('/')[0] == 'audio':
+                if m.file.mime_type.split('/')[1] == 'ogg':
                     source = BytesIO(await m.download_media(bytes))
                     source.name = m.file.name
                     out = BytesIO()
