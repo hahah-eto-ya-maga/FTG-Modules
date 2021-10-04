@@ -39,7 +39,7 @@ class demotivator2Mod(loader.Module):
             return           
 
         chat = '@super_rjaka_demotivator_bot'
-        
+        await message.delete()
         async with message.client.conversation(chat) as conv:
             try:
                 response = conv.wait_event(events.NewMessage(incoming=True, from_users=1016409811))
@@ -51,5 +51,5 @@ class demotivator2Mod(loader.Module):
                 await message.reply('<b>Разблокируй @super_rjaka_demotivator_bot</b>')
                 return
 
-           
+            
             await message.client.send_file(message.to_id, response.media, reply_to=await message.get_reply_message())
