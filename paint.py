@@ -1,7 +1,7 @@
 # coded by Y4sperMaglot
 
 from telethon.tl.types import MessageMediaDocument
-from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.errors.rpcerrorlist import YouBlockedUserError, TimeoutError
 from telethon import events, functions
 from .. import loader, utils
 
@@ -17,15 +17,13 @@ class KrasitelEbatMod(loader.Module):
             self.client = client
 
         if not reply:
-            await message.edit('<b>Реплай на картинку</b>')
-            return
-
+            return await message.edit('<b>Реплай на картинку</b>')
+            
         try:
             photo = reply.media
         except:
-            await message.edit('<b>Реплай на картинку</b>')
-            return
-
+            return await message.edit('<b>Реплай на картинку</b>')
+            
         bot = '@ColoriZatioN_Bot'
         await message.edit('<b>Работаем работаем...</b>')
 
@@ -36,8 +34,9 @@ class KrasitelEbatMod(loader.Module):
                 await message.client.send_file(bot, photo)
                 response = await response
             except YouBlockedUserError:
-                await message.reply('<b>Разблокируй @ColoriZatioN_Bot</b>')
-                return
+                return await message.reply('<b>Разблокируй @ColoriZatioN_Bot</b>')
+            except TimeoutError:
+                return await message.edit("<b>Бот @ColoriZatioN_Bot сдох</b>")
 
             await message.delete()
             await message.client.send_file(message.to_id, response.media, reply_to=await message.get_reply_message())
