@@ -2,7 +2,7 @@ from telethon import events, functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import MessageMediaDocument
 from .. import loader, utils
-from time import sleep
+from asyncio import sleep
 
 
 def register(cb):
@@ -36,21 +36,34 @@ class demotivator2Mod(loader.Module):
            media = reply.media
         except:
             await message.edit("<b>Реплай только на медиа</b>")
-            return           
+            return       
+
+        delGif = True    
+        gifs = await message.client(functions.messages.GetSavedGifsRequest(hash=0))
+        for gif in gifs.gifs:
+            if gif.id == media.document.id:
+                delGif = False
+                break
 
         chat = '@super_rjaka_demotivator_bot'
-        
+        await message.edit('<b>Дединсайд...</b>')
         async with message.client.conversation(chat) as conv:
             try:
                 response = conv.wait_event(events.NewMessage(incoming=True, from_users=1016409811))
-			
                 await message.client.send_file(chat, media, caption = args)  
-				
                 response = await response
             except YouBlockedUserError:
                 await message.reply('<b>Разблокируй @super_rjaka_demotivator_bot</b>')
                 return
 
+            if response.media is None:
+                response = conv.wait_event(events.NewMessage(incoming=True, from_users=1016409811))
+                response = await response
+
             await message.delete()
             await message.client.send_file(message.to_id, response.media, reply_to=await message.get_reply_message())
-            
+            await message.client(functions.messages.SaveGifRequest(id=response.media, unsave=True))
+            if delGif:
+                await message.client(functions.messages.SaveGifRequest(id=media, unsave=True))
+            await message.client(
+                functions.messages.DeleteHistoryRequest(peer='super_rjaka_demotivator_bot', max_id=0, just_clear=False, revoke=True))
