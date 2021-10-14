@@ -1,5 +1,5 @@
 from telethon import events, functions
-from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.errors.rpcerrorlist import YouBlockedUserError, TimeoutError
 from telethon.tl.types import MessageMediaDocument
 from .. import loader, utils
 from asyncio import sleep
@@ -30,31 +30,29 @@ class demotivator2Mod(loader.Module):
         args = utils.get_args_raw(message)
         reply = await message.get_reply_message()
         if not reply:
-            await message.edit("<b>Реплай на медиа</b>")
-            return
+            return await message.edit("<b>Реплай на медиа</b>")
         try:
            media = reply.media
         except:
-            await message.edit("<b>Реплай только на медиа</b>")
-            return       
-
-        delGif = True    
+            return await message.edit("<b>Реплай только на медиа</b>")
+        delGif = False    
         gifs = await message.client(functions.messages.GetSavedGifsRequest(hash=0))
         for gif in gifs.gifs:
-            if gif.id == media.document.id:
-                delGif = False
-                break
+            try:
+                delGif = False if gif.id == media.document.id else True
+            except: break
 
         chat = '@super_rjaka_demotivator_bot'
         await message.edit('<b>Дединсайд...</b>')
         async with message.client.conversation(chat) as conv:
             try:
                 response = conv.wait_event(events.NewMessage(incoming=True, from_users=1016409811))
-                await message.client.send_file(chat, media, caption = args)  
+                await message.client.send_file(chat, media, caption=args)  
                 response = await response
             except YouBlockedUserError:
-                await message.reply('<b>Разблокируй @super_rjaka_demotivator_bot</b>')
-                return
+                return await message.edit(f'<b>Разблокируй {chat}</b>')
+            except TimeoutError:
+                return await message.edit(f'<b>Бот {chat} сдох</b>')
 
             if response.media is None:
                 response = conv.wait_event(events.NewMessage(incoming=True, from_users=1016409811))
@@ -62,8 +60,8 @@ class demotivator2Mod(loader.Module):
 
             await message.delete()
             await message.client.send_file(message.to_id, response.media, reply_to=await message.get_reply_message())
+            await message.client(
+                functions.messages.DeleteHistoryRequest(peer='super_rjaka_demotivator_bot', max_id=0, just_clear=False, revoke=True))
             await message.client(functions.messages.SaveGifRequest(id=response.media, unsave=True))
             if delGif:
                 await message.client(functions.messages.SaveGifRequest(id=media, unsave=True))
-            await message.client(
-                functions.messages.DeleteHistoryRequest(peer='super_rjaka_demotivator_bot', max_id=0, just_clear=False, revoke=True))
