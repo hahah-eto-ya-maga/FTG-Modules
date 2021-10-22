@@ -2,7 +2,6 @@ from telethon import events, functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import MessageMediaDocument
 from .. import loader
-from asyncio import sleep
 
 
 @loader.tds
