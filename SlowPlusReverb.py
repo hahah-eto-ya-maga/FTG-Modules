@@ -26,7 +26,7 @@ class SlowPlusReverbMod(loader.Module):
             return await message.edit("<b>Реплай только на аудио</b>")
 
         chat = '@slowreverbbot'
-        await message.edit('<b>Ждём...</b>')
+        await message.edit('sʟᴏᴡed & ʀᴇᴠᴇʀʙ ...')
         async with message.client.conversation(chat) as conv:
             try:
                 response = conv.wait_event(events.NewMessage(incoming=True, from_users=1934970779))
@@ -42,7 +42,7 @@ class SlowPlusReverbMod(loader.Module):
                 response = await response
 
             await message.delete()
-            await message.client.send_file(message.to_id, response.media, reply_to=await message.get_reply_message())
+            await message.client.send_file(message.to_id, response.media, caption="<a href='tg://user?id=1934970779'>sʟᴏᴡᴇᴅ & ʀᴇᴠᴇʀʙ</a>", reply_to=await message.get_reply_message())
             await message.client(
                  functions.messages.DeleteHistoryRequest(peer='slowreverbbot', max_id=0, just_clear=False, revoke=True))
             
