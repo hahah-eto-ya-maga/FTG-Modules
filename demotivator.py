@@ -39,7 +39,12 @@ class demotivator2Mod(loader.Module):
         gifs = await message.client(functions.messages.GetSavedGifsRequest(hash=0))
         for gif in gifs.gifs:
             try:
-                delGif = False if gif.id == media.document.id else True
+                if gif.id == media.document.id:
+                    delGif = False
+                    break
+                else: 
+                    delGif = True
+                    break
             except: break
 
         chat = '@super_rjaka_demotivator_bot'
