@@ -64,13 +64,13 @@ class LZTMarketMod(loader.Module):
         link = f'<a href="{url}">Открыть</a>'  # Ссылка
 
         try:
-            service_account = soup.find_all('span', itemprop='title')[1].string.strip()   # Название игры или сервиса
+            service_account = soup.find_all('span', itemprop='name')[1].string.strip()   # Название игры или сервиса
         except:
             await message.edit('<b>Ссылка на аккаунт в маркете невалидна</b>')
             return
 
         try:
-            header = soup.find_all('h1', class_='h1Style marketItemView--titleStyle fl_l')[0].string.strip()   # Заголовок
+            header = soup.find_all('h1', class_='h1Style')[0].findChildren('span')[0].string.strip()   # Заголовок
         except:
             header = "Пустой"
 
@@ -121,7 +121,10 @@ class LZTMarketMod(loader.Module):
             sex = label[6].string.strip()
             yo = label[7].string.strip()
             conreg = soup.find('div', class_='marketItemView--mainInfoContainer')
-            reg = conreg.findChildren('span', class_='DateTime')[0].string.strip()
+            try:
+                reg = conreg.findChildren('span', class_='DateTime')[0].string.strip()
+            except:
+                reg = conreg.findChildren('abbr', class_='DateTime')[0].string.strip()
 
             await message.delete()
             await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте ВКонтакте:</b>\n👤 Количество друзей:  {friends}\n👥 Количество подписчиков:  {subs}\n📢 Количество голосов:  {votes}\n🛡 Двухэтапная аутентификация:  {auth}\n📱 Привязка к телефону:  {phone}\n✉ Привязка к почте:  {email}\n👤 Пол:  {sex}\n💯 Возраст:  {yo}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
@@ -273,7 +276,7 @@ class LZTMarketMod(loader.Module):
                 cookies = label[4].string.strip()
 
             await message.delete()
-            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Battle.net:</b>\n🎮 Игры:  {games}\n👤 Имя:  {name}\n🎫 BattleTag:  {tag}\n💰 Баланс:  {balance}\n🤹‍♂️ Псоледняя активность:  {active}\n📱 Привязка к телефону:  {phone}\n🌎 Страна:  {country}\n💯 Уровень OverWatch:  {lvl}\n🌀 Cookies:  {cookies}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
+            await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n<b>Информация об аккаунте Battle.net:</b>\n🎮 Игры:  {games}\n👤 Ограничение 1:  {name}\n🎫 Ограничение 2:  {tag}\n💰 Баланс:  {balance}\n🤹‍♂️ Псоледняя активность:  {active}\n📱 Привязка к телефону:  {phone}\n🌎 Страна:  {country}\n💯 Уровень OverWatch:  {lvl}\n🌀 Cookies:  {cookies}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
 
         else:
             await message.delete()
