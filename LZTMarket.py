@@ -128,7 +128,7 @@ class LZTMarketMod(loader.Module):
 
             await message.delete()
             await message.client.send_file(message.to_id, logo, caption=f'<b>Информация о товаре:</b>\n🎪 Контора:  {service_account}\n🏷 Заголовок:  {header}\n👨‍💻 Продавец:  {seller}\n💵 Цена:  {price}руб\n⌛ Дата публикации:  {accorigin}\n\n <b>Информация об аккаунте ВКонтакте:</b>\n👤 Количество друзей:  {friends}\n👥 Количество подписчиков:  {subs}\n📢 Количество голосов:  {votes}\n🛡 Двухэтапная аутентификация:  {auth}\n📱 Привязка к телефону:  {phone}\n✉ Привязка к почте:  {email}\n👤 Пол:  {sex}\n💯 Возраст:  {yo}\n💳 Дата регистрации:  {reg}\n\n🔗 Ссылка на трейд:  {link}', reply_to=await message.get_reply_message())
-                    # блять я заебался выбирать смайлы
+                    
 
         elif 'origin' in service_account.lower():
             gamesCon = soup.find_all('div', class_='gameTitle')
@@ -151,8 +151,11 @@ class LZTMarketMod(loader.Module):
         elif 'warface' in service_account.lower():
             statusCon = soup.find_all('div', class_='marketItemView--statusesContainer')
             bk = statusCon[1].findChildren('div', class_='statusTitle')[0].string.strip()
-            phone = statusCon[1].findChildren('div', class_='statusTitle')[1].string.strip()
-
+            try:
+                phone = statusCon[1].findChildren('div', class_='statusTitle')[1].string.strip()
+            except:
+                bk =  'Нет'
+                phone = statusCon[1].findChildren('div', class_='statusTitle')[0].string.strip()
             label = soup.find_all('div', class_='label')
             try:
                 rank = f'{label[0].string.strip()}, {label[1].string.strip()}, {label[2].string.strip()}'
