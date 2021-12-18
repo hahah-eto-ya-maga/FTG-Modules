@@ -265,7 +265,10 @@ class LZTMarketMod(loader.Module):
 
             label = soup.find_all('div', class_='label')
             balance = label[0].findChildren('span', class_='Tooltip')[0].string.strip()
-            active = label[1].findChildren('span', class_='DateTime')[0].string.strip()
+            try:
+                active = label[1].findChildren('span', class_='DateTime')[0].string.strip()
+            except:
+                active = label[1].findChildren('abbr', class_='DateTime')[0].string.strip()
             phone = label[2].string.strip()
             country = label[3].string.strip()
             lvl = label[4].string.strip()
