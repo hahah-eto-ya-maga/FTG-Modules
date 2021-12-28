@@ -28,7 +28,7 @@ class ProbivPoIPMod(loader.Module):
 
 		fixed_lookup = {}
 		for key, value in lookup.items():
-			special = {'query': 'IP-Адрес', 'continent': 'Континент', 'continentCode': 'Код континента', 'country': 'Страна', 'countryCode': 'Код страны', 'regionName': 'Регион', 'lat': 'Широта', 'lon': 'Долгота', 'timezone': 'Часовой пояс', 'currency': 'Валюта', 'isp': 'Интернет-провайдер', 'org': 'Организация', 'as': 'AS', 'asname': 'ASName', 'mobile': 'Мобильная (сотовая) связь', 'hosting': 'Хостинг', 'proxy': 'Используется прокси (не точное определение)'}
+			special = {'query': 'IP-Адрес', 'continent': 'Континент', 'city': 'Город', 'continentCode': 'Код континента', 'country': 'Страна', 'countryCode': 'Код страны', 'regionName': 'Регион', 'lat': 'Широта', 'lon': 'Долгота', 'timezone': 'Часовой пояс', 'currency': 'Валюта', 'isp': 'Интернет-провайдер', 'org': 'Организация', 'as': 'AS', 'asname': 'ASName', 'mobile': 'Мобильная (сотовая) связь', 'hosting': 'Хостинг', 'proxy': 'Используется прокси (не точное определение)'}
 			if key in special:
 		            fixed_lookup[special[key]] = str(value)
 
