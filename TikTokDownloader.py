@@ -14,7 +14,7 @@ class TikTokDownloaderMod(loader.Module):
 	async def ttcmd(self, message):
 		""".tt url"""
 		url = utils.get_args_raw(message)
-		if 'https://vt.tiktok.com/' not in url:
+		if 'tiktok.com/' not in url:
 			return await message.edit('<b>Give me url.</b>')
 		bot = '@TIKTOKDOWNLOADROBOT'
 
