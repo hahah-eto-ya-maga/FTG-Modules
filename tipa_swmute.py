@@ -73,7 +73,7 @@ class swmuteMod(loader.Module):
 		if self.db.get("sw", "status", True):
 			try:
 				for user in self.db.get("bannedUsers", "users"):
-					if user['chat'] == message.chat.id:
+					if user['chat'] == message.chat.id and user['id'] == message.from_id:
 						await message.delete()
 			except: return
 					
