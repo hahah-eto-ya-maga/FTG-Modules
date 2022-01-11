@@ -16,9 +16,10 @@ class swmuteMod(loader.Module):
 		""".swu выводит всех юзеров"""
 		users = self.db.get("bannedUsers", "users")
 		if users is not None:
-			id = ""
+			id = "Забаненные кенты в этом чате:\n"
 			for user in users:
-				id += f"<a href='tg://user?id={user}'>{user}</a>\n"
+				if user['chat'] == message.chat.id:
+					id += f"<a href='tg://user?id={user['id']}'>{user['id']}</a>\n"
 			await message.edit(id)
 		else:
 			return await message.edit("<b>Никого в муте нет.</b>")
@@ -36,30 +37,32 @@ class swmuteMod(loader.Module):
 
 	async def swmutecmd(self, message):
 		""".swmute reply или id"""
-		args = utils.get_args_raw(message)
+		args = str(utils.get_args_raw(message))
 		reply = await message.get_reply_message()
+		user = args if reply is None else str(reply.from_id)
 
-		id = args if reply is None else reply.from_id
 		users = self.db.get("bannedUsers", "users")
 		if users is not None:
-			users.append(id)
+			users.append(dict(id=user, chat=message.chat.id))
 		else:
 			users = []
-			users.append(id)
+			users.append(dict(id=user, chat=message.chat.id))
 		self.db.set("bannedUsers", "users", users)
-		await message.edit(f"Юзер <a href='tg://user?id={id}'>{id}</a> в муте.")
+		await message.edit(f"Юзер <a href='tg://user?id={user}'>{user}</a> в муте.")
 
 	async def swdelcmd(self, message):
 		""".swmute reply или id чтобы больше не удалять сообщения чела"""
-		args = utils.get_args_raw(message)
+		args = str(utils.get_args_raw(message))
 		reply = await message.get_reply_message()
-		
-		id = args if reply is None else reply.from_id
+		user = args if reply is None else str(reply.from_id)
+
 		users = self.db.get("bannedUsers", "users")
-		if users is not None:
-			users.remove(id)
+		for user in users:
+			if user['id'] == user and user['chat'] == message.chat.id:
+				del user['id']
+				del user['chat']
 		self.db.set("bannedUsers", "users", users)
-		await message.edit(f"Юзер <a href='tg://user?id={id}'>{id}</a> больше не в муте.")
+		await message.edit(f"Юзер <a href='tg://user?id={user.id}'>{user.id}</a> больше не в муте.")
 
 	async def swclscmd(self, message):
 		""".swcls размутить всех"""
@@ -70,7 +73,7 @@ class swmuteMod(loader.Module):
 		if self.db.get("sw", "status", True):
 			try:
 				for user in self.db.get("bannedUsers", "users"):
-					if str(message.from_id) == user:
+					if user['chat'] == message.chat.id:
 						await message.delete()
 			except: return
 					
