@@ -12,8 +12,8 @@ class NowPlayMod(loader.Module):
         """Скидывает то, что сейчас играет."""
         await message.edit('Минуточку...')
         np = await message.client.inline_query('nowplaybot', '')
-	  if message.chat is not None:
-	      await message.client.send_file(message.to_id, np[0].document)
+        if message.chat is not None:
+            await message.client.send_file(message.to_id, np[0].document)
         else:
-	     await message.client.send_file(message.to_id, np[0].result.document)
-	 await message.delete()
+        	await message.client.send_file(message.to_id, np[0].result.document)
+	    await message.delete()
