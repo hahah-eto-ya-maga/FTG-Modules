@@ -13,7 +13,7 @@ class NowPlayMod(loader.Module):
         await message.edit('Минуточку...')
         np = await message.client.inline_query('nowplaybot', '')
         if message.chat is not None:
-            await message.client.send_file(message.to_id, np[0].document)
+        	await message.client.send_file(message.to_id, np[0].document)
         else:
         	await message.client.send_file(message.to_id, np[0].result.document)
-	    await message.delete()
+        await message.delete()
