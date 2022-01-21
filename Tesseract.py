@@ -42,6 +42,6 @@ class TesseractMod(loader.Module):
             tes = pytesseract.image_to_string(Image.open(file), lang=args)
 
             await message.delete()
-            await message.client.send_message(message.to_id, f'<b>[OCR]</b>{tes}<b>[OCR]</b>', reply_to=await message.get_reply_message())
+            await message.client.send_message(message.to_id, f'<b>{tes}</b>', reply_to=await message.get_reply_message())
 
 
