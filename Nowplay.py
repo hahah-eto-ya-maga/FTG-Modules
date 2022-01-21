@@ -10,7 +10,7 @@ class NowPlayMod(loader.Module):
 
     async def npcmd(self, message):
         """Скидывает то, что сейчас играет."""
-        await message.edit('Минуточку...')
+        await message.edit('Шо я щас слушаю...')
         np = await message.client.inline_query('nowplaybot', '')
         if message.chat is not None:
         	await message.client.send_file(message.to_id, np[0].document)
