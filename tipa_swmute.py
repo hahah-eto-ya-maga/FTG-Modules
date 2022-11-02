@@ -19,7 +19,7 @@ class swmuteMod(loader.Module):
 			id = "Забаненные кенты в этом чате:\n"
 			for user in users:
 				if user['chat'] == message.chat.id:
-					id += f"<a href='tg://user?id={user['id']}'>{user['id']}</a>\n"
+					id += f"<a href='tg://user?id={str(user['id'])}'>{str(user['id'])}</a>\n"
 			await message.edit(id)
 		else:
 			return await message.edit("<b>Никого в муте нет.</b>")
@@ -39,7 +39,7 @@ class swmuteMod(loader.Module):
 		""".swmute reply или id"""
 		args = str(utils.get_args_raw(message))
 		reply = await message.get_reply_message()
-		user = args if reply is None else str(reply.from_id)
+		user = args if reply is None else reply.from_id
 
 		users = self.db.get("bannedUsers", "users")
 		if users is not None:
@@ -54,15 +54,15 @@ class swmuteMod(loader.Module):
 		""".swmute reply или id чтобы больше не удалять сообщения чела"""
 		args = str(utils.get_args_raw(message))
 		reply = await message.get_reply_message()
-		user_id = args if reply is None else str(reply.from_id)
+		user_id = args if reply is None else reply.from_id
 
 		users = self.db.get("bannedUsers", "users")
 		for user in users:
-			if user['id'] == user and (user['chat'] == message.chat.id or not user['chat']):
+			if user['id'] == user_id and (user['chat'] == message.chat.id or not user['chat']):
 				del user['id']
 				del user['chat']
 		self.db.set("bannedUsers", "users", users)
-		await message.edit(f"Юзер <a href='tg://user?id={user_id}'>{user_id}</a> больше не в муте.")
+		await message.edit(f"Юзер <a href='tg://user?id={str(user_id)}'>{str(user_id)}</a> больше не в муте.")
 
 	async def swclscmd(self, message):
 		""".swcls размутить всех"""
