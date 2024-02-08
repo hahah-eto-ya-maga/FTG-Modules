@@ -28,7 +28,7 @@ class AnimeSearchMod(loader.Module):
             return
 
         await message.edit("<b>Ищу...</b>")
-        bot = "@Anime_Reverse_Search_Bot"
+        bot = "@animeu_bot"
         async with message.client.conversation(bot) as conv:
             try:
                 response = conv.wait_event(events.MessageEdited(incoming=True, from_users=1644245632))
